@@ -24,13 +24,20 @@ func (_ HttpHook) Setup() error {
 	return nil
 }
 
-func (h HttpHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool) ([]byte, int, error) {
+func (h HttpHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool, target ...string) ([]byte, int, error) {
 	jsonInfo, err := json.Marshal(info)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	req, err := http.NewRequest("POST", h.Endpoint, bytes.NewBuffer(jsonInfo))
+	endPoint := h.Endpoint
+
+	if len(target) > 0 {
+		fmt.Println("Using custom target of", target[0])
+		endPoint = target[0]
+	}
+
+	req, err := http.NewRequest("POST", endPoint, bytes.NewBuffer(jsonInfo))
 	if err != nil {
 		return nil, 0, err
 	}

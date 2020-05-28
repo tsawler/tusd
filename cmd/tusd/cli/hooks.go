@@ -134,6 +134,10 @@ func invokeHookSync(typ hooks.HookType, info handler.HookEvent, captureOutput bo
 
 	id := info.Upload.ID
 	size := info.Upload.Size
+	target := ""
+	if val, ok := info.Upload.MetaData["endpoint"]; ok {
+		target = val
+	}
 
 	switch typ {
 	case hooks.HookPostFinish:
@@ -151,7 +155,7 @@ func invokeHookSync(typ hooks.HookType, info handler.HookEvent, captureOutput bo
 		logEv(stdout, "HookInvocationStart", "type", name, "id", id)
 	}
 
-	output, returnCode, err := hookHandler.InvokeHook(typ, info, captureOutput)
+	output, returnCode, err := hookHandler.InvokeHook(typ, info, captureOutput, target)
 
 	if err != nil {
 		logEv(stderr, "HookInvocationError", "type", string(typ), "id", id, "error", err.Error())

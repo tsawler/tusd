@@ -35,7 +35,7 @@ func (g *GrpcHook) Setup() error {
 	return nil
 }
 
-func (g *GrpcHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool) ([]byte, int, error) {
+func (g *GrpcHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool, target ...string) ([]byte, int, error) {
 	ctx := context.Background()
 	req := &pb.SendRequest{Hook: marshal(typ, info)}
 	resp, err := g.Client.Send(ctx, req)

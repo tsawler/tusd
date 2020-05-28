@@ -18,7 +18,7 @@ func (_ FileHook) Setup() error {
 	return nil
 }
 
-func (h FileHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool) ([]byte, int, error) {
+func (h FileHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool, target ...string) ([]byte, int, error) {
 	hookPath := h.Directory + string(os.PathSeparator) + string(typ)
 	cmd := exec.Command(hookPath)
 	env := os.Environ()

@@ -42,7 +42,7 @@ func (h *PluginHook) Setup() error {
 	return nil
 }
 
-func (h PluginHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool) ([]byte, int, error) {
+func (h PluginHook) InvokeHook(typ HookType, info handler.HookEvent, captureOutput bool, target ...string) ([]byte, int, error) {
 	var err error
 	switch typ {
 	case HookPostFinish:
